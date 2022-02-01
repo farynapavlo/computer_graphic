@@ -1,0 +1,28 @@
+from PIL import Image
+# drawing area
+xa = -2.0
+xb = 1.0
+ya = -1.5
+yb = 1.5
+
+# max iterations allowed
+maxIt = 255
+
+# image size
+imgx = 512
+imgy = 512
+image = Image.new("RGB", (imgx, imgy))
+
+for y in range(imgy):
+    zy = y * (yb - ya) / (imgy - 1) + ya
+    for x in range(imgx):
+        zx = x * (xb - xa) / (imgx - 1) + xa
+        z = zx + zy * 1j
+        c = z
+        for i in range(maxIt):
+            if abs(z) > 2.0:
+                break
+            z = z * z + c
+            image.putpixel((x, y), (i % 16, i % 32, i % 16))
+
+image.show()
